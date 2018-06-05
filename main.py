@@ -36,7 +36,12 @@ def log_error(e):
 
 
 
-raw_html = get_url('https://realpython.com/blog/')
-print(raw_html)
+raw_html = get_url('https://finance.yahoo.com/quote/SPY?p=SPY')
+html = BeautifulSoup(raw_html, 'html.parser')
 
+# print(html.prettify())
+
+
+for i, li in enumerate(html.select("li")):
+	print(i, li)
 
