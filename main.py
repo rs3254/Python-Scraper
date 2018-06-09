@@ -1,47 +1,35 @@
-from requests import get
-from requests.exceptions import RequestException
-from contextlib import closing
+
+from handleRequests import get_url
 from bs4 import BeautifulSoup
-
-
-print("test")
-
-
-
-def get_url(url):
-
-
-	try:
-		with closing(get(url, stream=True)) as resp:
-			if is_good_response(resp):
-				return resp.content
-			else:
-				return None
-
-	except RequestException as e: 
-		log_error('Error during requests to {0} : {1}'.format(url, str(e)))
-		return None
-
-
-
-def is_good_response(resp):
-	content_type = resp.headers['Content-Type'].lower()
-	return (resp.status_code == 200  and content_type is not None and content_type.find('html') > -1)
-
-
-
-def log_error(e):
-	print(e)
+import re 
 
 
 
 
-raw_html = get_url('https://finance.yahoo.com/quote/SPY?p=SPY')
+
+# raw_html = handleRequests.get_url('https://bloomberg.com')
+raw_html = get_url('https://bloomberg.com')
 html = BeautifulSoup(raw_html, 'html.parser')
 
-# print(html.prettify())
+
+headers = html.find_all("a", class_='single-story-module__related-story-link')
+
+headerArr = []; 
 
 
-for i, li in enumerate(html.select("li")):
-	print(i, li)
+print('\n')
+
+
+for j in headers:
+	for z in j:
+		headerArr.append(z)
+
+
+
+
+
+for j in range(0, len(headerArr)):
+	print(headerArr[j])
+
+
 
