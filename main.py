@@ -1,5 +1,6 @@
 
 from handleRequests import get_url
+from scrape import ScrapeClass
 from bs4 import BeautifulSoup
 import re 
 import datetime
@@ -23,20 +24,7 @@ def read():
 
 
 
-def aggResults():
-	client.drop_database('db.database1')
-	db.database.aggregate(
-		 [ 
-        { "$sort": { "_id": 1 } }, 
-        { "$group": { 
-            "_id": "$asin", 
-            "doc": { "$first": "$$ROOT" } 
-        }}, 
-        { "$replaceRoot": { "newRoot": "$doc" } },
-        { "$out": "collection" }
-    ]
-
-)
+# def aggSum():
 
 	
 
@@ -47,6 +35,8 @@ client = MongoClient('localhost', 27017)
 # Too Drop use below code -> clears out old values 
 client.drop_database("database")
 db = client.database
+
+
 
 
 
@@ -61,11 +51,15 @@ headers3  = html.find_all("a", class_="single-story-module__headline-link")
 headerArr = []; 
 
 
-
-
-
-
 dictionary = {}
+
+
+
+
+
+
+
+
 
 
 for j in headers:
@@ -86,6 +80,25 @@ for j in headers3:
 
 
 
+
+
+
+# for j in range(0, len(headerArr)):
+# 	timeStamp = datetime.datetime.utcnow()
+# 	headerString = re.sub(' +',' ',headerArr[j])
+# 	stringT = str(timeStamp).replace(".", "")
+# 	dictionary["Headline"] = cleanStr(headerString)
+# 	db.database.insert_one(dictionary)
+# 	dictionary.clear()
+
+
+
+
+headerCNBC = ScrapeClass.scrapeCNBC()
+
+
+
+
 for j in range(0, len(headerArr)):
 	timeStamp = datetime.datetime.utcnow()
 	headerString = re.sub(' +',' ',headerArr[j])
@@ -96,6 +109,15 @@ for j in range(0, len(headerArr)):
 
 
 
+
+#need to fix this 
+for j in range(0, len(headerCNBC)):
+	timeStamp = datetime.datetime.utcnow()
+	headerString = re.sub(' +',' ',headerCNBC[j])
+	stringT = str(timeStamp).replace(".", "")
+	dictionary["Headline"] = cleanStr(headerString)
+	db.database.insert_one(dictionary)
+	dictionary.clear()
 
 
 read()
