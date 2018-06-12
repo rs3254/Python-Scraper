@@ -5,10 +5,11 @@ import re
 class ScrapeClass:
 	
 
-	# def cleanStr(self, stringVal):
-	# 	st = stringVal.strip()
-	# 	stringValue = st.replace('\n', "")
-	# 	return stringValue
+	def cleanStr(self, stringVal):
+		st = stringVal.strip()
+		stringValue = st.replace('\n', "")
+		return stringValue
+
 
 
 	def scrapeCNBC():
@@ -20,6 +21,7 @@ class ScrapeClass:
 		for j in headers:
 			for z in j:
 				# newString = self.cleanStr(z)
+				# headerArr.append(stringValue)
 
 				st = str(z).strip()
 				stringValue = st.replace('\n', "")
@@ -27,6 +29,8 @@ class ScrapeClass:
 
 
 		return headerArr
+
+
 
 
 

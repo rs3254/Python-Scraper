@@ -2,9 +2,9 @@
 from handleRequests import get_url
 from scrape import ScrapeClass
 from bs4 import BeautifulSoup
-import re 
-import datetime
 from pymongo import MongoClient
+import re 
+from writeToDB import wToMongo
 
 
 
@@ -80,45 +80,22 @@ for j in headers3:
 
 
 
-
-
-
-# for j in range(0, len(headerArr)):
-# 	timeStamp = datetime.datetime.utcnow()
-# 	headerString = re.sub(' +',' ',headerArr[j])
-# 	stringT = str(timeStamp).replace(".", "")
-# 	dictionary["Headline"] = cleanStr(headerString)
-# 	db.database.insert_one(dictionary)
-# 	dictionary.clear()
-
-
-
-
 headerCNBC = ScrapeClass.scrapeCNBC()
 
 
+def write(arrForWrite):
 
-
-for j in range(0, len(headerArr)):
-	timeStamp = datetime.datetime.utcnow()
-	headerString = re.sub(' +',' ',headerArr[j])
-	stringT = str(timeStamp).replace(".", "")
-	dictionary["Headline"] = cleanStr(headerString)
-	db.database.insert_one(dictionary)
-	dictionary.clear()
+	for j in range(0, len(arrForWrite)):
+		headerString = re.sub(' +',' ',arrForWrite[j])
+		dictionary["Headline"] = cleanStr(headerString)
+		db.database.insert_one(dictionary)
+		dictionary.clear()
 
 
 
 
-#need to fix this 
-for j in range(0, len(headerCNBC)):
-	timeStamp = datetime.datetime.utcnow()
-	headerString = re.sub(' +',' ',headerCNBC[j])
-	stringT = str(timeStamp).replace(".", "")
-	dictionary["Headline"] = cleanStr(headerString)
-	db.database.insert_one(dictionary)
-	dictionary.clear()
-
+write(headerArr)
+write(headerCNBC)
 
 read()
 
