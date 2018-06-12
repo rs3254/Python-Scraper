@@ -11,6 +11,21 @@ class ScrapeClass:
 		return stringV
 
 
+	def genericScrape(self, stringUrl, classUrl):
+		rawHtml = get_url(stringUrl)
+		html = BeautifulSoup(rawHtml, 'html.parser')
+		headers = html.find_all("a", class_=classUrl)
+		headerArr = []
+
+		for j in headers:
+			for z in j:
+				newString = self.cleanStr(str(z))
+				headerArr.append(newString)
+
+		return headerArr
+
+
+		
 
 	def scrapeCNBC(self):
 		cnbcHtml = get_url('http://cnbc.com')

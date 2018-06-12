@@ -10,97 +10,32 @@ from writeToDB import wToMongo
 
 
 
-def cleanStr(stringVal):
-	st = stringVal.strip()
-	stringValue = st.replace('\n', "")
-	return stringValue
 
 
-def read():
-	database = db.database.find()
-	for item in database:
-		print(item)
-		# print(list(item.values())[1])
+mongo = wToMongo()
+db = mongo.setConnection()
 
 
 
-# def aggSum():
-
-	
-
-
-client = MongoClient()
-client = MongoClient('localhost', 27017)
-
-# Too Drop use below code -> clears out old values 
-client.drop_database("database")
-db = client.database
-
-
-
-
-
-# raw_html = handleRequests.get_url('https://bloomberg.com')
-raw_html = get_url('https://bloomberg.com')
-html = BeautifulSoup(raw_html, 'html.parser')
-# print(html)
-
-headers = html.find_all("a", class_='single-story-module__related-story-link')
-headers2 = html.find_all("a", class_="story-package-module__story__headline-link")
-headers3  = html.find_all("a", class_="single-story-module__headline-link")
-headerArr = []; 
-
-
-dictionary = {}
-
-
-
-
-
-
-
-
-
-
-for j in headers:
-	for z in j:
-		headerArr.append(z.rstrip())
-
-
-for j in headers2:
-	for z in j:
-		headerArr.append(z.rstrip())
-
-for j in headers3:
-	for z in j:
-		headerArr.append(z.rstrip())
 
 
 
 
 scraper = ScrapeClass()
-headerCNBC = scraper.scrapeCNBC()
+headerCNBC = scraper.genericScrape('http://cnbc.com', " ")
+headerBloomberg1 = scraper.genericScrape('https://bloomberg.com', 'single-story-module__related-story-link')
+headerBloomberg2 = scraper.genericScrape('https://bloomberg.com', '"story-package-module__story__headline-link')
+headerBloomberg3 = scraper.genericScrape('https://bloomberg.com', 'single-story-module__headline-link')
 
-# headerCNBC = ScrapeClass.scrapeCNBC()
+mergedList = headerCNBC + headerBloomberg1 + headerBloomberg2 + headerBloomberg3
 
 
-def write(arrForWrite):
-
-	for j in range(0, len(arrForWrite)):
-		headerString = re.sub(' +',' ',arrForWrite[j])
-		dictionary["Headline"] = cleanStr(headerString)
-		db.database.insert_one(dictionary)
-		dictionary.clear()
+mongo.write(mergedList, db)
 
 
 
 
-write(headerArr)
-write(headerCNBC)
-
-read()
-
-
+mongo.read(db)
 
 
 
