@@ -78,9 +78,10 @@ for j in headers3:
 
 
 
+scraper = ScrapeClass()
+headerCNBC = scraper.scrapeCNBC()
 
-
-headerCNBC = ScrapeClass.scrapeCNBC()
+# headerCNBC = ScrapeClass.scrapeCNBC()
 
 
 def write(arrForWrite):

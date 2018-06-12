@@ -7,12 +7,12 @@ class ScrapeClass:
 
 	def cleanStr(self, stringVal):
 		st = stringVal.strip()
-		stringValue = st.replace('\n', "")
-		return stringValue
+		stringV = st.replace('\n', "")
+		return stringV
 
 
 
-	def scrapeCNBC():
+	def scrapeCNBC(self):
 		cnbcHtml = get_url('http://cnbc.com')
 		html = BeautifulSoup(cnbcHtml, 'html.parser')
 		headers = html.find_all("a", class_=" ")
@@ -20,12 +20,8 @@ class ScrapeClass:
 
 		for j in headers:
 			for z in j:
-				# newString = self.cleanStr(z)
-				# headerArr.append(stringValue)
-
-				st = str(z).strip()
-				stringValue = st.replace('\n', "")
-				headerArr.append(stringValue)
+				newString = self.cleanStr(str(z))
+				headerArr.append(newString)
 
 
 		return headerArr
