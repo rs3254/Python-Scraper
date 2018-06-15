@@ -8,14 +8,8 @@ from writeToDB import wToMongo
 
 
 
-
-
-
-
 mongo = wToMongo()
 db = mongo.setConnection()
-
-
 
 
 
@@ -27,10 +21,20 @@ headerBloomberg1 = scraper.genericScrape('https://bloomberg.com', 'single-story-
 headerBloomberg2 = scraper.genericScrape('https://bloomberg.com', '"story-package-module__story__headline-link')
 headerBloomberg3 = scraper.genericScrape('https://bloomberg.com', 'single-story-module__headline-link')
 
+
 mergedList = headerCNBC + headerBloomberg1 + headerBloomberg2 + headerBloomberg3
 
 
+
+
 mongo.write(mergedList, db)
+
+
+
+
+
+
+
 
 
 
