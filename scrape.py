@@ -10,8 +10,18 @@ class ScrapeClass:
 		stringV = st.replace('\n', "")
 		return stringV
 
+	def createTupleList(self, header, website):
+		tup = ()
+		tupList = [] 
+		for j in header:
+			tup = (j,) + (website, )
+			tupList.append(tup)
+			tup = ()
 
-	def genericScrape(self, stringUrl, classUrl):
+		return tupList
+
+
+	def genericScrape(self, stringUrl, classUrl, website):
 		rawHtml = get_url(stringUrl)
 		html = BeautifulSoup(rawHtml, 'html.parser')
 		headers = html.find_all("a", class_=classUrl)
@@ -22,7 +32,7 @@ class ScrapeClass:
 				newString = self.cleanStr(str(z))
 				headerArr.append(newString)
 
-		return headerArr
+		return self.createTupleList(headerArr, website)
 
 
 		
