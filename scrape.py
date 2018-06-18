@@ -36,20 +36,10 @@ class ScrapeClass:
 
 
 		
-
-	def scrapeCNBC(self):
-		cnbcHtml = get_url('http://cnbc.com')
-		html = BeautifulSoup(cnbcHtml, 'html.parser')
-		headers = html.find_all("a", class_=" ")
-		headerArr = []
-
-		for j in headers:
-			for z in j:
-				newString = self.cleanStr(str(z))
-				headerArr.append(newString)
-
-
-		return headerArr
+	def rawScrape(self, stringUrl):
+		rawHtml = get_url(stringUrl)
+		html = BeautifulSoup(rawHtml, 'html.parser')
+		print(html)
 
 
 
