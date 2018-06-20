@@ -22,6 +22,14 @@ class wToMongo:
 		db = client.database
 		return db
 
+	def createCompleteHeaderStr(self, db):
+		compString = "" 
+		database = db.database.find()
+		for item in database:	
+			compString += item["Headline"][0]
+			compString += '\n'
+
+		return compString
 
 
 	def read(self, db):

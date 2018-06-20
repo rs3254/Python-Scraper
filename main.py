@@ -3,6 +3,7 @@ from scrape import ScrapeClass
 from pymongo import MongoClient
 import re 
 from writeToDB import wToMongo
+import markovify
 
 
 
@@ -31,9 +32,13 @@ m = headerBloomberg1 + headerBloomberg2 + headerBloomberg3
 
 
 mongo.write(mergedList, db)
-mongo.read(db)
+# mongo.read(db)
+
+compStr = mongo.createCompleteHeaderStr(db)
+
+model = markovify.NewlineText(compStr)
 
 
-
-
+for i in range(5):
+	print(model.make_sentence())
 
