@@ -4,6 +4,7 @@ from pymongo import MongoClient
 import re 
 from writeToDB import wToMongo
 import markovify
+import nltk
 
 
 
@@ -26,12 +27,8 @@ mergedList = headerCNBC + headerBloomberg1 + headerBloomberg2 + headerBloomberg3
 
 m = headerBloomberg1 + headerBloomberg2 + headerBloomberg3
 
-# scraper.rawScrape("https://bloomberg.com")
 
-
-
-
-mongo.write(mergedList, db)
+# mongo.write(mergedList, db)
 # mongo.read(db)
 
 compStr = mongo.createCompleteHeaderStr(db)
@@ -39,6 +36,21 @@ compStr = mongo.createCompleteHeaderStr(db)
 model = markovify.NewlineText(compStr)
 
 
-for i in range(5):
-	print(model.make_sentence())
+def genOutput(value):
+	i = 0
+	while i < value:
+		outPutStr = model.make_sentence(tries=100)
+
+		if len(outPutStr) < 50:
+			i += 1
+			print(outPutStr)
+		else:
+			continue 
+
+
+
+genOutput(5)
+
+
+
 
