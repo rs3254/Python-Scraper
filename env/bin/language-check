@@ -1,0 +1,6 @@
+#!/Users/raysabbineni/Desktop/Projects/PythonScraper/env/bin/python3
+
+import sys
+
+from language_check import main
+sys.exit(main.main())

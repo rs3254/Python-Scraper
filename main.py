@@ -4,14 +4,15 @@ from pymongo import MongoClient
 import re 
 from writeToDB import wToMongo
 import markovify
-import nltk
+import language_check
+import pprint
 
 
-
+pp = pprint.PrettyPrinter(indent=4)
 mongo = wToMongo()
 db = mongo.setConnection()
 
-
+tool = language_check.LanguageTool('en-US')
 
 
 
@@ -41,15 +42,31 @@ def genOutput(value):
 	while i < value:
 		outPutStr = model.make_sentence(tries=100)
 
-		if len(outPutStr) < 50:
+		if len(outPutStr) < 40:
 			i += 1
-			print(outPutStr)
+			matches = tool.check(outPutStr)
+			if len(matches) > 0:
+				m = list(matches[0])[6]
+				if m == "Possible spelling mistake found":
+					i -= 1
+					continue
+				elif m == "Comparison requires 'than', not 'then' nor 'as'.":
+					print(outPutStr, len(outPutStr))
+
+				else:
+					i -= 1
+					continue 
+			else:
+				print(outPutStr, len(outPutStr))
+
 		else:
 			continue 
 
 
 
-genOutput(5)
+
+
+genOutput(20)
 
 
 
