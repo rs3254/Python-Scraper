@@ -1,6 +1,8 @@
 from pymongo import MongoClient
 import re 
 import datetime
+from bson import ObjectId
+
 
 
 
@@ -13,6 +15,8 @@ class wToMongo:
 		return newSt
 
 
+	def deleteElement(self, db):
+		db.database.remove( {"_id": ObjectId("5b4955095889468f9f949689")});
 
 
 	def setConnection(self):
@@ -26,8 +30,11 @@ class wToMongo:
 		compString = "" 
 		database = db.database.find()
 		for item in database:	
-			compString += item["Headline"][0]
-			compString += '\n'
+			try:
+				compString += item["Headline"][0]
+				compString += '\n'
+			except:
+				print(item)
 
 		return compString
 

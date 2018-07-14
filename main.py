@@ -25,12 +25,11 @@ headersFT = scraper.genericScrape("http://ft.com", "js-teaser-heading-link", "FT
 
 
 mergedList = headerCNBC + headerBloomberg1 + headerBloomberg2 + headerBloomberg3 + headersFT
-
 m = headerBloomberg1 + headerBloomberg2 + headerBloomberg3
 
-
-# mongo.write(mergedList, db)
-# mongo.read(db)
+# mongo.deleteElement(db)
+mongo.write(mergedList, db)
+mongo.read(db)
 
 compStr = mongo.createCompleteHeaderStr(db)
 
@@ -52,7 +51,6 @@ def genOutput(value):
 					continue
 				elif m == "Comparison requires 'than', not 'then' nor 'as'.":
 					print(outPutStr, len(outPutStr))
-
 				else:
 					i -= 1
 					continue 
